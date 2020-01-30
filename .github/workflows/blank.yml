@@ -22,7 +22,6 @@ jobs:
   apk:
     name: Generate APK
     runs-on: ubuntu-18.04
-
     steps:
       - uses: actions/checkout@v1
       - name: set up JDK 1.8
@@ -36,4 +35,17 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Send mail
+        uses: dawidd6/action-send-mail@master
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions job result
+          # Read file contents as body:
+          #body: file://app/build/outputs/apk/debug/app-debug.apk
+          body: Hey man
+          to: bmwalwanda@kuunika.org
+          from: Kuunika
      
